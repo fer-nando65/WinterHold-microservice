@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container">
+        <h2>List Customer</h2>
+        <div class="search-box">
+            <form th:attr="action=@{/customer/index}" method="get">
+                <div class="search-row">
+                    <label>Number:</label>
+                    <input type="text" name="searchId" th:value="${searchId}" placeholder="search number membership...">
+                </div>
+                <div class="search-row">
+                    <label>Name:</label>
+                    <input type="text" name="fullNameSearch" th:value="${fullNameSearch}" placeholder="search name...">
+                </div>
+                <div class="search-row">
+                    <input type="checkbox" class="custom-checkbox" name="isExpired" th:attr="value=${isExpired}"
+                        th:checked="${isExpired == 'on'}">
+                    <div class="checkbox-label">
+                        <label>Membership Already Expired</label>
+                    </div>
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="add-button">
+            <a th:href="@{/customer/upsert}">Add New Customer</a>
+        </div>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/customer(page=${currentPage-1}, searchId=${searchId}, fullNameSearch=${fullNameSearch}, isExpired=${isExpired})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/customer(page=${currentPage+1}, searchId=${searchId}, fullNameSearch=${fullNameSearch}, isExpired=${isExpired})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+        <table>
+            <thead>
+                <th>Action</th>
+                <th>Membership Number</th>
+                <th>Full Name</th>
+                <th>Expired Date</th>
+            </thead>
+            <tbody>
+                <tr th:each="customer:${gridCustomer}" th:object="${customer}">
+                    <td>
+                        <a th:href="@{/customer/upsert(id=*{id})}" class="button edit">Edit</a>
+                        <a href="javascript:;" th:id="*{id}" class="button delete">Delete</a>
+                        <a href="javascript:;" th:id="*{id}" class="button extend">Extend</a>
+                    </td>
+                    <td th:text="*{id}" th:id="*{id}" class="id"></td>
+                    <td th:text="*{fullName}"></td>
+                    <td th:text="*{idExpiredDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/customer(page=${currentPage-1}, searchId=${searchId}, searchFullName=${fullNameSearch}, isExpired=${isExpired})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/customer(page=${currentPage+1}, searchId=${searchId}, searchFullName=${searchFullName}, isExpired=${isExpired})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content detail">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2 class="modal-title">Member Details</h2>
+            <div class="modal-inner">
+                <div class="modal-row">
+                    <p class="modal-label">Membership Number</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="membershipNumber"></p>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <p class="modal-label">Full Name</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="fullName"></p>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <p class="modal-label">Birth Date</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="birthDate"></p>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <p class="modal-label">Gender</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="gender"></p>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <p class="modal-label">Phone</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="phone"></p>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <p class="modal-label">Address</p><span>:</span>
+                    <div class="modal-info">
+                        <p id="address"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button id="closeModalFooter" class="btn btn-close">Close</button>
+            </div>
+        </div>
+        <div class="modal-content modal-delete">
+            <p id="deleteInfo"></p>
+            <button type="button" id="approveModalDetele" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalDelete" class="btn btn-close">No</button>
+        </div>
+        <div class="modal-content modal-extend">
+            <p id="extendInfo"></p>
+            <button type="button" id="approveModalExtend" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalExtend" class="btn btn-close">No</button>
+        </div>
+    </div>
+</body>
+
+</html>

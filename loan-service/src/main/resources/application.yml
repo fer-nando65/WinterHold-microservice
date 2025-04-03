@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: loan-service
+  datasource:
+    url: ${DB_LOAN_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  #      ddl-auto: create
+  kafka:
+    topic:
+      loan: loans-topic
+    producer:
+      bootstrap-server: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+gateway:
+  url: ${GATEWAY_URL}
+
+resilience4j:
+  circuitbreaker:
+    instance:
+      loanService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 3s
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASE
+        slidingWindowSize: 1
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+  timelimiter:
+    instance:
+      loanService:
+        timeout-duration: 2s

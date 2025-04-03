@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div class="container">
+        <div class="excecption-info">
+            <!--            <img th:src="" alt="error-image">-->
+            <p class="error-info-page">Page not found !</p>
+        </div>
+        <div class="back-exception-button">
+            <a th:href="@{/dashboard}">Back</a>
+        </div>
+    </div>
+</body>
+
+</html>

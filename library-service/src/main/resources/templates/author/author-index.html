@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container">
+        <h2>List of Author</h2>
+        <div class="search-box">
+            <form th:attr="action=@{/author/index}" method="get">
+                <div class="search-row">
+                    <label>Name:</label>
+                    <input type="text" name="searchName" th:value="${searchName}" placeholder="search...">
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="add-button">
+            <a th:href="@{/author/upsert}">Add New Author</a>
+        </div>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/author(page=${currentPage-1}, searchName=${searchName})}" class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/author(page=${currentPage-1}, searchName=${searchName})}" class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+        <table>
+            <thead>
+                <th>Action</th>
+                <th>Full Name</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th>Education</th>
+            </thead>
+            <tbody>
+                <tr th:each="author:${gridAuthor}" th:object="${author}">
+                    <td>
+                        <a th:href="@{/author/detail(id=*{id})}" class="button extend">Books</a>
+                        <a th:href="@{/author/upsert(id=*{id})}" class="button edit">Edit</a>
+                        <a href="javascript:;" th:id="*{id}" class="button delete"
+                            th:classappend="*{hasBook == true} ? 'disabled' : ''">Delete</a>
+                    </td>
+                    <td th:text="*{fullName}"></td>
+                    <td th:text="*{age}"></td>
+                    <td th:text="*{status}"></td>
+                    <td th:text="*{education}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/author(page=${currentPage-1}, nameSearch=${idSearch})}" class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/author(page=${currentPage-1}, searchName=${searchName})}" class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content modal-delete">
+            <p id="deleteInfo"></p>
+            <button type="button" id="approveModalDetele" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalDelete" class="btn btn-close">No</button>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/author.js}"></script>
+
+</html>

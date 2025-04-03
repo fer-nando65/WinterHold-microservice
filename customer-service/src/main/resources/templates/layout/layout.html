@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:fragment="head">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WinterHold</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"
+            type="text/css" />
+        <link rel="shortcut icon" th:href="@{/icon/favicon.ico}" type="image/ico">
+        <link rel="stylesheet" th:href="@{/css/customer.css}">
+        <script th:src="@{/js/customer.js}" defer></script>
+    </div>
+</head>
+
+<body>
+    <div th:fragment="navbar">
+        <div class="navbar">
+            <a th:href="@{/dashboard}">Home</a>
+            <a th:href="@{/author}">Authors</a>
+            <a th:href="@{/category}">Books</a>
+            <a th:href="@{/customer}">Customers</a>
+            <a th:href="@{/loan}">Loan</a>
+        </div>
+    </div>
+</body>
+
+</html>

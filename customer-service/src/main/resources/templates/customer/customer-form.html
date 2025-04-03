@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2>Customer Registration</h2>
+            <form th:attr="action=@{/customer/save}" method="post" th:object="${customerDetail}">
+                <input type="hidden" name="formFlag" th:value="*{formFlag}" readonly>
+                <div class="form-group">
+                    <label>Membership Number:*</label>
+                    <input type="text" th:field="*{id}" th:readonly="*{formFlag != '0'}">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('id') or #fields.hasGlobalErrors()} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{id}"></span>
+                            <span class="error" th:errors="${customerDetail}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>First Name:*</label>
+                    <input type="text" th:field="*{firstName}">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('firstName')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{firstName}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" th:field="*{lastName}">
+                </div>
+                <div class="form-group">
+                    <label>Birth Date:*</label>
+                    <input type="date" name="birthDate" th:value="*{birthDate}">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('birthDate')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{birthDate}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="width: 39%">Gender:*</label>
+                    <div class="radio-group">
+                        <th:block th:each="radio:${genderRadioButton}" th:object="${radio}">
+                            <div class="radio-input">
+                                <input type="radio" name="gender" th:value="*{value}" th:checked="*{selected}">
+                                <span th:text="*{text}"></span>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="validation-error" th:classappend="${#fields.hasErrors('gender')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{gender}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="text" th:field="*{phone}">
+                </div>
+                <div class="form-group">
+                    <label>Address:</label>
+                    <textarea rows="3" th:field="*{address}"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-form btn-submit">Submit</button>
+                    <a th:href="@{/customer}" type="button" class="btn-form btn-back">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

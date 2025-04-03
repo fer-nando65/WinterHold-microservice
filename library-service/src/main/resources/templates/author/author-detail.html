@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container" th:object="${authorDetail}">
+        <div class="back-button">
+            <a th:href="@{/author}">Back</a>
+        </div>
+        <h2 th:text="*{fullName}"></h2>
+        <div class="info-box">
+            <div class="info-inner-box">
+                <div class="info-row">
+                    <p class="info-label">Birth Date</p><span>:</span>
+                    <div class="info-text">
+                        <p th:text="*{birthDate}"></p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <p class="info-label">Decease Date</p><span>:</span>
+                    <div class="info-text">
+                        <p th:text="*{deceaseDate}"></p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <p class="info-label">Education</p><span>:</span>
+                    <div class="info-text">
+                        <p th:text="*{education}"></p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <p class="info-label">Summary</p><span>:</span>
+                    <div class="info-text">
+                        <p th:text="*{summary}"></p>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <th>Book Title</th>
+                    <th>Category</th>
+                    <th>Is Borrowed</th>
+                    <th>Release Date</th>
+                    <th>Total Page</th>
+                    <th>Is Deleted</th>
+                </thead>
+                <tbody>
+                    <tr th:each="detail:${authorListBook}" th:object="${detail}">
+                        <td th:text="*{bookTitle}"></td>
+                        <td th:text="*{categoryName}"></td>
+                        <td th:text="*{isBorrowed}"></td>
+                        <td th:text="*{releaseDate}"></td>
+                        <td th:text="*{totalPages}"></td>
+                        <td th:text="*{isDeleted}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+</html>

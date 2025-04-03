@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2>Book Registration</h2>
+            <form th:attr="action=@{/book/save}" method="post" th:object="${bookDetail}">
+                <input type="hidden" th:field="*{formFlag}" readonly>
+                <input type="hidden" name="isBorrowed" th:value="*{isBorrowed}" readonly>
+                <div class="form-group">
+                    <label>Code:*</label>
+                    <input type="text" th:field="*{code}" th:readonly="*{formFlag != '0'}" placeholder="input book code...">
+                    <div class="validation-error" th:classappend="${#fields.hasErrors('code') or #fields.hasGlobalErrors()} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{code}"></span>
+                            <span class="error" th:errors="${bookDetail}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Title:*</label>
+                    <input type="text" th:field="*{bookTitle}" placeholder="input book title...">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('bookTitle')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{bookTitle}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Category:</label>
+                    <input type="text" th:field="*{categoryName}" placeholder="input book title..." readonly>
+                </div>
+                <div class="form-group">
+                    <label>Author:*</label>
+                    <select name="authorId" id="authorId">
+                        <option selected hidden disabled>Select Author</option>
+                        <option th:each="option:${optionAuthor}" th:object="${option}" name="authorId"
+                            th:value="*{value}" th:text="*{text}" th:selected="*{selected}">
+                        </option>
+                    </select>
+                    <div class="validation-error" th:classappend="${#fields.hasErrors('authorId')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{authorId}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Release Date:</label>
+                    <input type="date" name="releaseDate" th:value="*{releaseDate}">
+                </div>
+                <div class="form-group">
+                    <label>Total Page:</label>
+                    <input type="text" th:field="*{totalPage}" placeholder="input education...">
+                </div>
+                <div class="form-group">
+                    <label>Summary:</label>
+                    <textarea rows="3" th:field="*{summary}" placeholder="input summary..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-form btn-submit">Submit</button>
+                    <a th:href="@{/book(categoryName=${categoryName})}" type="button" class="btn-form btn-back">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

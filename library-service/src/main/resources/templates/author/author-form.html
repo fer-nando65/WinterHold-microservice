@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2>Author Registration</h2>
+            <form th:attr="action=@{/author/save}" method="post" th:object="${authorDetail}">
+                <input type="hidden" name="id" th:value="*{id}" readonly>
+                <div class="form-group">
+                    <label>Title:*</label>
+                    <select name="title" id="title">
+                        <option selected hidden disabled>No Specific Title</option>
+                        <option th:each="option:${optionTitle}" th:object="${option}" th:name="title"
+                            th:value="*{value}" th:text="*{text}" th:selected="*{selected}">
+                        </option>
+                    </select>
+                    <div class="validation-error" th:classappend="${#fields.hasErrors('title')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{title}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>First Name:*</label>
+                    <input type="text" th:field="*{firstName}" placeholder="input first name...">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('firstName')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{firstName}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" th:field="*{lastName}" placeholder="input last name...">
+                </div>
+                <div class="form-group">
+                    <label>Birth Date:*</label>
+                    <input type="date" name="birthDate" th:value="*{birthDate}">
+                    <div class="validation-error"
+                        th:classappend="${#fields.hasErrors('birthDate')} ? 'show-error' : ''">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error" th:errors="*{birthDate}"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Decease Date:</label>
+                    <input type="date" name="deceaseDate" th:value="*{deceaseDate}">
+                </div>
+                <div class="form-group">
+                    <label>Education:</label>
+                    <input type="text" th:field="*{education}" placeholder="input education...">
+                </div>
+                <div class="form-group">
+                    <label>Summary:</label>
+                    <textarea rows="3" th:field="*{summary}" placeholder="input summary..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-form btn-submit">Submit</button>
+                    <a th:href="@{/author}" type="button" class="btn-form btn-back">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

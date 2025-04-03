@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div id="loader" class="loading-center"></div>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container">
+        <h2>List of Category</h2>
+        <div class="search-box">
+            <form th:attr="action=@{/category/index}" method="get">
+                <div class="search-row">
+                    <label class="category-label">Category Name:</label>
+                    <input type="text" name="searchCategoryName" th:value="${searchCategoryName}"
+                        placeholder="search...">
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="add-button" id="addCategory">
+            <a href="javascript:;">Add New Category</a>
+        </div>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/category(page=${currentPage-1}, searchCategoryName=${searchCategoryName})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/category(page=${currentPage-1}, searchCategoryName=${searchCategoryName})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+        <table>
+            <thead>
+                <th>Action</th>
+                <th>Category</th>
+                <th>Floor</th>
+                <th>Isle</th>
+                <th>Bay</th>
+                <th>Total Book</th>
+            </thead>
+            <tbody>
+                <tr th:each="category:${gridCategory}" th:object="${category}">
+                    <td>
+                        <a th:href="@{/book(categoryName=*{categoryName})}" class="button extend">Books</a>
+                        <a href="javascript:;" th:id="*{categoryName}" class="button edit category">Edit</a>
+                        <a href="javascript:;" th:id="*{categoryName}" class="button delete category"
+                            th:classappend="*{totalBooks != 0} ? 'disabled' : ''">Delete</a>
+                    </td>
+                    <td th:text="*{categoryName}"></td>
+                    <td th:text="*{floor}"></td>
+                    <td th:text="*{isle}"></td>
+                    <td th:text="*{bay}"></td>
+                    <td th:text="*{totalBooks}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/category(page=${currentPage-1}, searchCategoryName=${searchCategoryName})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/category(page=${currentPage-1}, searchCategoryName=${searchCategoryName})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content modal-upsert">
+            <h2 class="modal-upsert-info"></h2>
+            <form action="javascript:;" method="post">
+                <input type="hidden" id="formFlag">
+                <div class="form-group">
+                    <label>Category Name:*</label>
+                    <input type="text" id="categoryName" placeholder="input category name...">
+                    <div class="validation-error modal-error error-category">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Floor:*</label>
+                    <input type="number" id="floor" placeholder="input floor...">
+                    <div class="validation-error modal-error error-floor">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Isle:*</label>
+                    <input type="text" id="isle" placeholder="input isle...">
+                    <div class="validation-error modal-error error-isle">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Bay:*</label>
+                    <input type="text" id="bay" placeholder="input bay...">
+                    <div class="validation-error modal-error error-bay">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button type="button" id="submitModalUpsert" class="btn btn-approve">Submit</button>
+            <button type="button" id="closeModalUpsert" class="btn btn-close">Back</button>
+        </div>
+        <div class="modal-content modal-delete">
+            <p id="deleteInfo"></p>
+            <button type="button" id="approveModalDelete" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalDelete" class="btn btn-close">No</button>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/category.js}"></script>
+
+</html>

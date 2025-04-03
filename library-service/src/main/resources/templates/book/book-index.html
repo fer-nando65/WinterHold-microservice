@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container">
+        <div class="back-button">
+            <a th:href="@{/category}">Back</a>
+        </div>
+        <h2>List of <span th:text="${categoryName}"></span> Book</h2>
+        <div class="search-box">
+            <form th:attr="action=@{/book/index}" method="get">
+                <input type="hidden" name="categoryName" th:value="${categoryName}" readonly>
+                <div class="search-row">
+                    <label class="book-label">Title Book:</label>
+                    <input type="text" name="searchBookTitle" th:value="${searchBookTitle}" placeholder="search...">
+                </div>
+                <div class="search-row">
+                    <label class="book-label">Author Name:</label>
+                    <input type="text" name="searchAuthorName" th:value="${searchAuthorName}" placeholder="search...">
+                </div>
+                <div class="search-row">
+                    <input type="checkbox" class="custom-checkbox" name="isAvailable" th:attr="value=${isAvailable}"
+                        th:checked="${isAvailable == 'on'}">
+                    <div class="checkbox-label">
+                        <label>Is Available</label>
+                    </div>
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="add-button">
+            <a th:href="@{/book/upsert(categoryName=${categoryName})}">Add New <span th:text="${categoryName}"></span>
+                Book</a>
+        </div>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/book(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, searchAuthorName=${searchAuthorName})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/book(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, searchAuthorName=${searchAuthorName})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+        <table>
+            <thead>
+                <th>Action</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Is Borrowed</th>
+                <th>Release Date</th>
+                <th>Total Page</th>
+            </thead>
+            <tbody>
+                <tr th:each="book:${gridBook}" th:object="${book}">
+                    <td>
+                        <a href="javascript:;" th:id="*{code}" class="button summary"
+                            th:classappend="*{summary == ''} ? 'disabled' : ''">Summary</a>
+                        <a th:href="@{/book/upsert(categoryName=${categoryName}, code=*{code})}"
+                            class="button edit">Edit</a>
+                        <a href="javascript:;" th:id="*{code}" class="button delete"
+                            th:classappend="*{isBorrowed == 'Borrowed'} ? 'disabled' : ''">Delete</a>
+                    </td>
+                    <td th:text="*{bookTitle}"></td>
+                    <td th:text="*{authorName}"></td>
+                    <td th:text="*{isBorrowed}"></td>
+                    <td th:text="*{releaseDate}"></td>
+                    <td th:text="*{totalPage}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/book(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, searchAuthorName=${searchAuthorName})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/book(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, searchAuthorName=${searchAuthorName})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content modal-summary">
+            <p id="summaryInfo"></p>
+            <button type="button" id="closeModalSummary" class="btn btn-close">Close</button>
+        </div>
+        <div class="modal-content modal-delete">
+            <p id="deleteInfo"></p>
+            <button type="button" id="approveModalDelete" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalDelete" class="btn btn-close">No</button>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/book.js}"></script>
+
+</html>

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: dashboard
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+gateway:
+  url: ${GATEWAY_URL}
+
+resilience4j:
+  circuitbreaker:
+    instance:
+      inventory:
+        dashboard:
+          failureRateThreshold: 50
+          waitDurationInOpenState: 3s
+          permittedNumberOfCallsInHalfOpenState: 2
+          slidingWindowType: COUNT_BASE
+          slidingWindowSize: 1
+          automaticTransitionFromOpenToHalfOpenEnabled: true

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com" lang="en">
+
+<head>
+    <div th:replace="~{layout/layout :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{layout/layout :: navbar}"></div>
+    <div class="container">
+        <h2>List of Loan</h2>
+        <div class="search-box">
+            <form th:attr="action=@{/loan/index}" method="get">
+                <div class="search-row">
+                    <label>Book Title:</label>
+                    <input type="text" name="searchBookTitle" th:value="${searchBookTitle}" placeholder="search...">
+                </div>
+                <div class="search-row">
+                    <label>Customer Name:</label>
+                    <input type="text" name="searchCustomerName" th:value="${searchCustomerName}"
+                        placeholder="search...">
+                </div>
+                <div class="search-row">
+                    <input type="checkbox" class="custom-checkbox" name="isDueDatePassed"
+                        th:attr="value=${isDueDatePassed}" th:checked="${isDueDatePassed == 'on'}">
+                    <div class="checkbox-label">
+                        <label>Passed Due Date</label>
+                    </div>
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="add-button">
+            <a href="javascript:;">Add New Loan</a>
+        </div>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/loan(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, seaarchCustomerName=${seaarchCustomerName}, isDueDatePassed=${isDueDatePassed})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/loan(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, seaarchCustomerName=${seaarchCustomerName}, isDueDatePassed=${isDueDatePassed})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+        <table>
+            <thead>
+                <th>Action</th>
+                <th>Book Title</th>
+                <th>Customer Name</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+            </thead>
+            <tbody>
+                <tr th:each="loan:${gridLoan}" th:object="${loan}">
+                    <td>
+                        <a href="javascript:;" th:id="*{id}" class="button detail">Detail</a>
+                        <a href="javascript:;" th:id="*{id}" class="button edit"
+                            th:classappend="*{returnDate != '-'} ? 'disabled' : ''">Edit</a>
+                        <a href="javascript:;" th:id="*{id}" class="button return"
+                            th:classappend="*{returnDate != '-'} ? 'disabled' : ''">Return</a>
+                    </td>
+                    <td th:text="*{bookTitle}"></td>
+                    <td th:text="*{customerName}"></td>
+                    <td th:text="*{loanDate}"></td>
+                    <td th:text="*{dueDate}"></td>
+                    <td th:text="*{returnDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <th:block th:if="${currentPage > 1}">
+                <a th:href="@{/loan(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, seaarchCustomerName=${seaarchCustomerName}, isDueDatePassed=${isDueDatePassed})}"
+                    class="pagination-left">
+                    <span><i class="fa fa-toggle-left"></i></span>
+                </a>
+            </th:block>
+            <div th:text="|page ${currentPage} of ${totalPages}|" class="pagination-info"></div>
+            <th:block th:if="${currentPage < totalPages}">
+                <a th:href="@{/loan(page=${currentPage-1}, searchBookTitle=${searchBookTitle}, seaarchCustomerName=${seaarchCustomerName}, isDueDatePassed=${isDueDatePassed})}"
+                    class="pagination-right">
+                    <span><i class="fa fa-toggle-right"></i></span>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content modal-detail">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2 class="modal-title">Loan Details</h2>
+            <div class="modal-sub-content">
+                <div class="modal-inner">
+                    <h3>Book</h3>
+                    <div class="modal-row">
+                        <p class="modal-label">Title</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="titleDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Category</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="categoryNameDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Author</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="authorDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Floor</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="floorDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Isle</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="isleDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Bay</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="bayDetail"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-inner">
+                    <h3>Customer</h3>
+                    <div class="modal-row">
+                        <p class="modal-label">Membership Number</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="membershipNumberDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Full Name</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="fullNameDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Phone</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="phoneDetail"></p>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <p class="modal-label">Membership Expired Date</p><span>:</span>
+                        <div class="modal-info">
+                            <p id="membershipNumEx"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button id="closeModalDetail" class="btn btn-close">Close</button>
+            </div>
+        </div>
+
+        <div class="modal-content modal-upsert">
+            <h2 class="modal-upsert-info"></h2>
+            <form action="javascript:;" method="post">
+                <input type="hidden" id="loanId" readonly>
+                <div class="form-group">
+                    <label>Customer Name:*</label>
+                    <select name="customer-option" id="customerOption"></select>
+                    <div class="validation-error modal-error error-customer">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Book:*</label>
+                    <select name="book-option" id="bookOption"></select>
+                    <div class="validation-error modal-error error-book">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Loan Date:*</label>
+                    <input type="date" id="loanDate">
+                    <div class="validation-error modal-error error-date">
+                        <div class="arrow-error"></div>
+                        <div class="error-line">
+                            <span class="error"></span>
+                            <i class='fas fa-exclamation-circle'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Note:</label>
+                    <textarea name="loan-note" id="loanNote"></textarea>
+                </div>
+            </form>
+            <button type="button" id="submitModalUpsert" class="btn btn-approve">Submit</button>
+            <button type="button" id="closeModalUpsert" class="btn btn-close">Back</button>
+        </div>
+        <div class="modal-content modal-return">
+            <p id="returnInfo"></p>
+            <button type="button" id="approveModalReturn" class="btn btn-approve">Yes</button>
+            <button type="button" id="closeModalReturn" class="btn btn-close">No</button>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/loan.js}"></script>
+
+</html>

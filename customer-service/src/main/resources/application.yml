@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: customer-service
+  datasource:
+    url: ${DB_CUSTOMER_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      ddl-auto: create
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+gateway:
+  url: ${GATEWAY_URL}
+
+resilience4j:
+  circuitbreaker:
+    instance:
+      inventory:
+        customerService:
+          failureRateThreshold: 50
+          waitDurationInOpenState: 3s
+          permittedNumberOfCallsInHalfOpenState: 2
+          slidingWindowType: COUNT_BASE
+          slidingWindowSize: 1
+          automaticTransitionFromOpenToHalfOpenEnabled: true
