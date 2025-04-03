@@ -2,8 +2,8 @@
 
 <h3>README Translation</h3>
 <ul>
-  <li><a href="">English</a></li>
-  <li><a href="">Indonesia</a></li>
+  <li><a href="https://github.com/fer-nando65/WinterHold-microservice/blob/master/README.md">English</a></li>
+  <li><a href="https://github.com/fer-nando65/WinterHold-microservice/blob/master/README.id.md">Indonesia</a></li>
 </ul>
 <br>
 
@@ -57,7 +57,7 @@ WinterHold is a modern and scalable Library Management System built using Spring
 
 Here are some screenshots of the application:
 
-Database Diagram
+* Database Diagram
 <img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/db_full.png">
 
 * Home
