@@ -39,7 +39,7 @@ WinterHold is a modern and scalable Library Management System built using Spring
 
 <h2>📜 Microservices Overview</h2>
 
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/architecture_microservice.JPG">
 
 * Customer Service – Manages user accounts, borrowers, and library members.
 
@@ -51,30 +51,35 @@ WinterHold is a modern and scalable Library Management System built using Spring
 
 * API Gateway – Routes requests to appropriate services.
 
+* Eureka - Register and Manages Server Address.
+
 <h2>📸 Screenshots</h2>
 
 Here are some screenshots of the application:
 
-*Home
-<img href="">
+Database Diagram
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/db_full.png">
+
+* Home
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/home.JPG">
 
 * Author Page
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/author.JPG">
 
 * Category Page
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/category.JPG">
 
 * Book Page
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/book.JPG">
 
 * Loan Page
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/loan.JPG">
 
 * Validation
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/validation.JPG">
 
 * Error Page
-<img href="">
+<img src="https://github.com/fer-nando65/WinterHold-microservice/blob/master/screenshot/errorpage.JPG">
 
 <h2>🤝 Contributing</h2>
 
