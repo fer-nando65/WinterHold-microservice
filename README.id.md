@@ -1,5 +1,12 @@
 # WinterHold - Sistem Manajemen Perpustakaan
 
+<h3>README Translation</h3>
+<ul>
+  <li><a href="https://github.com/fer-nando65/WinterHold-microservice/blob/master/README.md">English</a></li>
+  <li><a href="https://github.com/fer-nando65/WinterHold-microservice/blob/master/README.id.md">Indonesia</a></li>
+</ul>
+<br>
+
 WinterHold adalah Sistem Manajemen Perpustakaan yang modern dan skalabel, dibangun menggunakan Spring Boot dengan arsitektur microservices. Proyek ini menyediakan cara yang efisien dan mulus untuk mengelola buku, peminjam, dan transaksi dengan ketersediaan tinggi serta toleransi kesalahan.
 
 <h2>✨ Fitur</h2>
