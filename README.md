@@ -82,6 +82,6 @@ Feel free to fork the repository and contribute via pull requests.
 
 <h2>📜 License</h2>
 
-This project is licensed under the MIT License.
+This project is created for learning purposes and is open-source. You are free to use it as needed.
 
 <h2>Enjoy using WinterHold – Your ultimate Library Management System! 📚❄️</h2>
